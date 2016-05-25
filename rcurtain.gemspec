@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.date        = '2016-05-26'
   s.summary     = "RCurtain"
   s.description = "Open the curtain and see if your feature is enabled"
-  s.authors     = ["Danillo Souza"]
-  s.email       = 'danillo.souza@moip.com.br'
+  s.authors     = ["Danillo Souza", "Gabriel Queiroz"]
+  s.email       = ["danillo.souza@moip.com.br", "gabriel.queiroz@moip.com.br"]
   s.files       = ["lib/rcurtain.rb"]
   s.homepage    =
     'http://github.com/moip/curtain'
