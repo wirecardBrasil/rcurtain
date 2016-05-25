@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
     'http://github.com/moip/curtain'
   s.license       = 'MIT'
 
+  s.add_runtime_dependency "hiredis"
   s.add_runtime_dependency "redis", "~>3.2"
   s.add_development_dependency "rspec"
 end

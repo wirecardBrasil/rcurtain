@@ -1,6 +1,3 @@
-require "redis"
-require "rcurtain/feature"
-
 module Rcurtain
   class Curtain
 
@@ -10,32 +7,31 @@ module Rcurtain
       @redis = Redis.new(:url => url)
     end
 
-    def opened? (feature, users= nil)
+    def opened? (feature, users = [])
       feat = get_feature(feature)
 
-      if users
-        (compare_percentage?(feat.percentage)) || (feat.users.any? { |user| users.include?(user)})
-      else
-        compare_percentage?(feat.percentage)
+      return (compare_percentage?(feat.percentage)) || (users.any? { |user| feat.users.include?(user)}) unless users.empty?
+
+      compare_percentage?(feat.percentage)
+    rescue Redis::CannotConnectError
+      return false
+    end
+
+    private
+      def get_feature (name)
+        percentage = redis.get("feature:#{name}:percentage")
+        percentage ||= 0
+
+        users = redis.smembers("feature:#{name}:users")
+        users ||= []
+
+        return Feature.new(name, percentage, users)
       end
-    end
 
-    def get_feature (name)
-      percentage = redis.get("feature:#{name}:percentage")
-      percentage = 0 if percentage.nil?
-
-      users = redis.smembers("feature:#{name}:users")
-      users = [''] if users.nil?
-
-      feature = Feature.new(name, percentage, users)
-
-      feature
-    end
-
-    def compare_percentage? (percentage)
-      rnd = Random.new
-      rnd.rand(1..100) <= percentage
-    end
+      def compare_percentage? (percentage)
+        rnd = Random.new
+        rnd.rand(1..100) <= percentage
+      end
 
   end
 end

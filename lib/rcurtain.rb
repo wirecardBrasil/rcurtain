@@ -1,3 +1,6 @@
+require "redis"
+
+require "rcurtain/feature"
 require "rcurtain/curtain"
 
 module Rcurtain
