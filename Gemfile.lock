@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    curtain (0.0.1)
+    rcurtain (0.0.1)
       hiredis
       redis (~> 3.2)
 
@@ -29,5 +29,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  curtain!
+  rcurtain!
   rspec
+
+BUNDLED WITH
+   1.12.3
