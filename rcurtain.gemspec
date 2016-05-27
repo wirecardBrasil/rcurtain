@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'curtain'
+  s.name        = 'rcurtain'
   s.version     = '0.0.1'
   s.date        = '2016-05-26'
   s.summary     = "RCurtain"
