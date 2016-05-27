@@ -30,7 +30,7 @@ module Rcurtain
 
       def compare_percentage? (percentage)
         rnd = Random.new
-        rnd.rand(1..100) <= percentage
+        rnd.rand(1..100) <= percentage.to_f
       end
 
   end
