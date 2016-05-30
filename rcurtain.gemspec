@@ -6,10 +6,12 @@ Gem::Specification.new do |s|
   s.description = "Open the curtain and see if your feature is enabled"
   s.authors     = ["Danillo Souza", "Gabriel Queiroz"]
   s.email       = ["danillo.souza@moip.com.br", "gabriel.queiroz@moip.com.br"]
-  s.files       = ["lib/rcurtain.rb"]
   s.homepage    =
     'http://github.com/moip/curtain'
   s.license       = 'MIT'
+
+  s.files       = Dir['**/*'].keep_if { |file| File.file?(file) }
+  s.require_paths = ['lib']
 
   s.add_runtime_dependency "hiredis"
   s.add_runtime_dependency "redis", "~>3.2"
