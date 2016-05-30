@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'rcurtain'
-  s.version     = '0.0.1'
+  s.version     = '0.0.3'
   s.date        = '2016-05-26'
   s.summary     = "RCurtain"
   s.description = "Open the curtain and see if your feature is enabled"
