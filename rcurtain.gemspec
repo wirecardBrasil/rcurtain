@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'rcurtain'
-  s.version     = '0.0.1'
+  s.version     = '0.0.3'
   s.date        = '2016-05-26'
   s.summary     = "RCurtain"
   s.description = "Open the curtain and see if your feature is enabled"
@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email       = ["danillo.souza@moip.com.br", "gabriel.queiroz@moip.com.br"]
   s.files       = ["lib/rcurtain.rb"]
   s.homepage    =
-    'http://github.com/moip/curtain'
+    'http://github.com/moip/rcurtain'
   s.license       = 'MIT'
 
   s.add_runtime_dependency "hiredis"
