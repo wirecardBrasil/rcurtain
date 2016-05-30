@@ -22,10 +22,10 @@ Or install it yourself as:
 
 * Rcurtain uses redis to control features, which can be checked by a **percentage** or a **set of users**.
 ```
-feature:[name]:percentage
+feature:[name-of-feature]:percentage
 ```
 ```
-feature:[name]:users
+feature:[name-of-feature]:users
 ```
 
 * To use Rcurtain, create a new object Rcurtain using your redis URL. (password@ip:port/database)
