@@ -36,14 +36,19 @@ Rcurtain.configure do |config|
 end
 ```
 
+* Initiliaze your variable before using it
+```ruby
+rcurtain = Rcurtain.new
+```
+
 * Consult if the curtain is opened for a feature using the method "opened?", passing the name of the feature you want to check.
 ```ruby
-Rcurtain.opened? 'feature'
+rcurtain.opened? 'feature'
 ```
 
 * You can also pass a set of users to be checked.
 ```ruby
-Rcurtain.opened?('feature', ['user-1','user-2'])
+rcurtain.opened?('feature', ['user-1','user-2'])
 ```
 
 ## Contributing
