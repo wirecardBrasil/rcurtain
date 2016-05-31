@@ -36,9 +36,9 @@ Rcurtain.configure do |config|
 end
 ```
 
-* Initiliaze your variable before using it
+* Get the instance of Rcurtain.
 ```ruby
-rcurtain = Rcurtain.new
+rcurtain = Rcurtain.instance
 ```
 
 * Consult if the curtain is opened for a feature using the method "opened?", passing the name of the feature you want to check.
