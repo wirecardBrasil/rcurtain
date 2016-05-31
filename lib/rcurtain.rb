@@ -9,8 +9,8 @@ module Rcurtain
   class << self
     attr_writer :configuration
 
-    def new
-      Curtain.new
+    def instance
+      Curtain.instance
     end
   end
 

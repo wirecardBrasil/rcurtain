@@ -1,5 +1,8 @@
+require "singleton"
+
 module Rcurtain
   class Curtain
+    include Singleton
 
     attr_reader :redis
 
