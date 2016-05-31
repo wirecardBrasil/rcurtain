@@ -1,10 +1,13 @@
+require "singleton"
+
 module Rcurtain
   class Curtain
+    include Singleton
 
     attr_reader :redis
 
-    def initialize (url)
-      @redis = Redis.new(:url => url)
+    def initialize
+      @redis = Redis.new(:url => Rcurtain.configuration.url)
     end
 
     def opened? (feature, users = [])
@@ -14,7 +17,7 @@ module Rcurtain
 
       compare_percentage?(feat.percentage)
     rescue Redis::CannotConnectError
-      return false
+      return Rcurtain.configuration.default_response
     end
 
     private

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rcurtain (0.0.1)
+    rcurtain (0.0.3)
       hiredis
       redis (~> 3.2)
 

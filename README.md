@@ -28,20 +28,28 @@ feature:[name-of-feature]:percentage
 feature:[name-of-feature]:users
 ```
 
-* To use Rcurtain, create a new object Rcurtain using your redis URL. (password@ip:port/database)
+* To use Rcurtain, first your need to initialize the configuration defining your **redis URL** (password@ip:port/database). Optionally, you can also configure the **default response** when the feature is not found, which by default is false.
 ```ruby
-rcurtain = Rcurtain.new("redis://:p4ssw0rd@10.0.1.1:6380/15")
-``` 
+Rcurtain.configure do |config|
+  config.url = 'redis://:p4ssw0rd@10.0.1.1:6380/15'
+  # config.default_response = true
+end
+```
 
-* Consult if a feature is opened using the method "opened?", passing the name of the feature you want to check.
+* Get the instance of Rcurtain.
 ```ruby
-rcurtain.opened? "feature"
-``` 
+rcurtain = Rcurtain.instance
+```
+
+* Consult if the curtain is opened for a feature using the method "opened?", passing the name of the feature you want to check.
+```ruby
+rcurtain.opened? 'feature'
+```
 
 * You can also pass a set of users to be checked.
 ```ruby
-rcurtain.opened? ("feature", ['user-1','user-2'])
-``` 
+rcurtain.opened?('feature', ['user-1','user-2'])
+```
 
 ## Contributing
 

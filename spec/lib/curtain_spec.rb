@@ -2,7 +2,13 @@ require "spec_helper"
 
 describe Rcurtain do
 
-  subject(:rcurtain) { Rcurtain.new("redis://:p4ssw0rd@10.0.1.1:6380/15") }
+  before do
+    Rcurtain.configure do |config|
+      config.url = 'redis://:p4ssw0rd@10.0.1.1:6380/15'
+    end
+  end
+
+  subject(:rcurtain) { Rcurtain.instance }
 
   context "is opened" do
 
@@ -62,4 +68,5 @@ describe Rcurtain do
       it { expect(rcurtain.opened? "feature").to be false }
     end
   end
+
 end
