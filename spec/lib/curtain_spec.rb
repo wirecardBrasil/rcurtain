@@ -8,7 +8,7 @@ describe Rcurtain do
     end
   end
 
-  subject(:rcurtain) { Rcurtain.new }
+  subject(:rcurtain) { Rcurtain.instance }
 
   context "is opened" do
 
