@@ -2,6 +2,8 @@
 
 Easy way to control your features using [redis](http://redis.io/).
 
+Also available for Java -> [JCurtain!](https://github.com/moip/jcurtain)
+
 ## Installation
 
 Add this line to your application's Gemfile:
