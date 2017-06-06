@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rcurtain (0.0.3)
+    rcurtain (0.0.4)
       hiredis
       redis (~> 3.2)
 
@@ -10,7 +10,7 @@ GEM
   specs:
     diff-lcs (1.2.5)
     hiredis (0.6.1)
-    redis (3.3.0)
+    redis (3.3.3)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
