@@ -22,7 +22,9 @@ module Rcurtain
 
     def get_users(feature)
       feat = get_feature(feature)
-      return feat.users      
+      return feat.users  
+    rescue Redis::CannotConnectError
+      return Rcurtain.configuration.default_response    
     end
 
     private
