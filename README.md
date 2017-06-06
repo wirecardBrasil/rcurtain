@@ -1,4 +1,6 @@
 # RCurtain
+[![Code Climate](https://codeclimate.com/github/moip/rcurtain/badges/gpa.svg)](https://codeclimate.com/github/moip/rcurtain)
+
 
 Easy way to control your features using [redis](http://redis.io/).
 
@@ -20,6 +22,24 @@ Or install it yourself as:
 
     $ gem install rcurtain
 
+## Install
+To use Rcurtain, first your need to initialize the configuration defining your **redis URL** (password@ip:port/database). Optionally, you can also configure the **default response** when the feature is not found, which by default is false.
+
+## Rails
+```shell
+$ rails g rcurtain:install
+```
+Open config/initializers/rcurtain.rb and set your redis URI in file.
+
+## Without Rails
+Just add the fowlling lines
+```ruby
+Rcurtain.configure do |config|
+  config.url = 'redis://:p4ssw0rd@10.0.1.1:6380/15'
+  # config.default_response = true
+end
+```
+
 ## Usage
 
 * Rcurtain uses redis to control features, which can be checked by a **percentage** or a **set of users**.
@@ -28,14 +48,6 @@ feature:[name-of-feature]:percentage
 ```
 ```
 feature:[name-of-feature]:users
-```
-
-* To use Rcurtain, first your need to initialize the configuration defining your **redis URL** (password@ip:port/database). Optionally, you can also configure the **default response** when the feature is not found, which by default is false.
-```ruby
-Rcurtain.configure do |config|
-  config.url = 'redis://:p4ssw0rd@10.0.1.1:6380/15'
-  # config.default_response = true
-end
 ```
 
 * Get the instance of Rcurtain.

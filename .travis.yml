@@ -1,0 +1,12 @@
+language: ruby
+sudo: false
+cache: bundler
+services:
+  - redis
+before_install:
+  - gem install bundler
+  - gem update bundler
+rvm:
+ - 2.2
+ - jruby
+ - rbx-2
