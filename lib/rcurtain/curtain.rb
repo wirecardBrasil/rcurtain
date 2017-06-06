@@ -20,6 +20,11 @@ module Rcurtain
       return Rcurtain.configuration.default_response
     end
 
+    def get_users(feature)
+      feat = get_feature(feature)
+      return feat.users      
+    end
+
     private
       def get_feature (name)
         percentage = redis.get("feature:#{name}:percentage")
