@@ -21,19 +21,16 @@ module Rcurtain
     end
 
     def get_users(feature)
-      feat = get_feature(feature)
-      return feat.users  
+      get_feature(feature).users
     rescue Redis::CannotConnectError
-      return Rcurtain.configuration.default_response    
+        Rcurtain.configuration.default_response    
     end
 
     private
       def get_feature (name)
-        percentage = redis.get("feature:#{name}:percentage")
-        percentage ||= 0
+        percentage = redis.get("feature:#{name}:percentage") || 0
 
-        users = redis.smembers("feature:#{name}:users")
-        users ||= []
+        users = redis.smembers("feature:#{name}:users") || []
 
         return Feature.new(name, percentage, users)
       end
