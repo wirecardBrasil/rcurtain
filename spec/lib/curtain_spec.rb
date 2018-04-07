@@ -1,80 +1,71 @@
-require "spec_helper"
-
+require 'spec_helper'
 describe Rcurtain do
-
   before do
     Rcurtain.configure do |config|
       config.url = 'redis://:p4ssw0rd@10.0.1.1:6380/15'
     end
   end
-
   subject(:rcurtain) { Rcurtain.instance }
 
-  context "is opened" do
+  describe '#opened?' do
+    let(:user) { ['MPA-00000000000'] }
+    let(:users) { ['MPA-000000000000', 'MPA-111111111111'] }
 
-    context "when 100%" do
+    context 'when percentage is fully opened' do
       before do
         allow_any_instance_of(Redis).to receive(:get).and_return(100)
         allow_any_instance_of(Redis).to receive(:smembers).and_return(nil)
       end
 
-      it { expect(rcurtain.opened? "feature").to be true }
+      it 'should be true' do
+        expect(subject.opened?('feature')).to be true
+      end
     end
 
-    context "when user exists" do
-      before do
-        allow_any_instance_of(Redis).to receive(:get).and_return(0)
-        allow_any_instance_of(Redis).to receive(:smembers).and_return(['MPA-123'])
+    context 'when percentage is fully closed' do
+      context 'and all users are enabled' do
+        before do
+          allow_any_instance_of(Redis).to receive(:get).and_return(0)
+          allow_any_instance_of(Redis).to receive(:smembers).and_return(user)
+        end
+
+        it 'should be true' do
+          expect(subject.opened?('feature', user)).to be true
+        end
       end
 
-      it { expect(rcurtain.opened?("feature", ['MPA-123'])).to be true }
-    end
-  end
+      context 'and only one user is enabled' do
+        before do
+          allow_any_instance_of(Redis).to receive(:get).and_return(0)
+          allow_any_instance_of(Redis).to receive(:smembers).and_return(user)
+        end
 
-  context "is closed" do
-    context "when 0%" do
-      before do
-        allow_any_instance_of(Redis).to receive(:get).and_return(0)
-        allow_any_instance_of(Redis).to receive(:smembers).and_return(nil)
+        it 'should be false' do
+          expect(subject.opened?('feature', users)).to be false
+        end
       end
 
-      it { expect(rcurtain.opened? "feature").to be false }
-    end
+      context 'and no user is enabled' do
+        before do
+          allow_any_instance_of(Redis).to receive(:get).and_return(0)
+          allow_any_instance_of(Redis).to receive(:smembers).and_return(nil)
+        end
 
-    context "when user does not exists" do
-      before do
-        allow_any_instance_of(Redis).to receive(:get).and_return(0)
-        allow_any_instance_of(Redis).to receive(:smembers).and_return(["MPA-321"])
+        it 'should be false' do
+          expect(subject.opened?('feature')).to be false
+        end
       end
-
-      it { expect(rcurtain.opened?("feature", ['MPA-123'])).to be false }
     end
 
-    context "when nothing was found on redis" do
-      before do
-        allow_any_instance_of(Redis).to receive(:get).and_return(nil)
-        allow_any_instance_of(Redis).to receive(:smembers).and_return(nil)
-      end
-
-      it { expect(rcurtain.opened? "feature_not_found").to be false }
-    end
-
-    context "when failed connection" do
+    context 'when connection fails' do
       before do
         allow_any_instance_of(Redis).to receive(:get).and_raise(Redis::CannotConnectError)
         allow_any_instance_of(Redis).to receive(:smembers).and_raise(Redis::CannotConnectError)
       end
 
-      it { expect(rcurtain.opened? "feature").to be false }
+      it 'should be false' do
+        expect(subject.opened?('feature')).to be false
+      end
     end
   end
-
-  context "get users from feature" do
-    before do
-      allow_any_instance_of(Redis).to receive(:get).and_return(0)
-      allow_any_instance_of(Redis).to receive(:smembers).and_return(['123', '321'])
-    end
-    it { expect(rcurtain.get_users("feature")).to eq ['123', '321']}
-  end
-
 end

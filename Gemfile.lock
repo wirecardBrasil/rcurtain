@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rcurtain (0.0.4)
+    rcurtain (0.0.6)
       hiredis
       redis (~> 3.2)
 
@@ -9,8 +9,10 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.2.5)
+    fakeredis (0.7.0)
+      redis (>= 3.2, < 5.0)
     hiredis (0.6.1)
-    redis (3.3.3)
+    redis (3.3.5)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -29,8 +31,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  fakeredis
   rcurtain!
   rspec
 
 BUNDLED WITH
-   1.12.3
+   1.16.1

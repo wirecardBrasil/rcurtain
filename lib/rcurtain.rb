@@ -1,13 +1,13 @@
-require "redis"
+require 'redis'
 
-require "rcurtain/feature"
-require "rcurtain/curtain"
-require "rcurtain/configuration"
+require 'rcurtain/feature'
+require 'rcurtain/curtain'
+require 'rcurtain/configuration'
 
+# Easy way to control your features using redis
 module Rcurtain
-
   class << self
-    attr_writer :configuration
+    attr_writer :configuration, :feature
 
     def instance
       Curtain.instance
@@ -21,5 +21,9 @@ module Rcurtain
   def self.configure
     @configuration = Configuration.new
     yield(configuration)
+  end
+
+  def self.feature
+    @feature ||= Feature.instance
   end
 end

@@ -1,44 +1,35 @@
-require "singleton"
+require 'singleton'
 
 module Rcurtain
+  # Responsible to check features for users or percentages
   class Curtain
     include Singleton
 
-    attr_reader :redis
-
     def initialize
-      @redis = Redis.new(:url => Rcurtain.configuration.url)
+      @redis = Redis.new(url: Rcurtain.configuration.url)
+      @random = Random.new
     end
 
-    def opened? (feature, users = [])
-      feat = get_feature(feature)
-
-      return (compare_percentage?(feat.percentage)) || (users.any? { |user| feat.users.include?(user)}) unless users.empty?
-
-      compare_percentage?(feat.percentage)
-    rescue Redis::CannotConnectError
-      return Rcurtain.configuration.default_response
-    end
-
-    def get_users(feature)
-      get_feature(feature).users
-    rescue Redis::CannotConnectError
-        Rcurtain.configuration.default_response    
+    def opened?(feature_name, users = [])
+      percentage?(feature_name) || users?(feature_name, users)
     end
 
     private
-      def get_feature (name)
-        percentage = redis.get("feature:#{name}:percentage") || 0
 
-        users = redis.smembers("feature:#{name}:users") || []
+    def users?(feature_name, users = [])
+      return false if users.empty?
+      allowed_users = Rcurtain.feature.users(feature_name)
+      users.all? { |user| allowed_users.include?(user) }
+    rescue Redis::CannotConnectError
+      Rcurtain.configuration.default_response
+    end
 
-        return Feature.new(name, percentage, users)
-      end
-
-      def compare_percentage? (percentage)
-        rnd = Random.new
-        rnd.rand(1..100) <= percentage.to_f
-      end
-
+    def percentage?(feature_name)
+      allowed_percentage = Rcurtain.feature.percentage(feature_name)
+      rand_percentage = @random.rand(1..100)
+      rand_percentage <= allowed_percentage
+    rescue Redis::CannotConnectError
+      Rcurtain.configuration.default_response
+    end
   end
 end
