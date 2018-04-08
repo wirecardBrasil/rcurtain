@@ -22,6 +22,45 @@ Or install it yourself as:
 
 ## Usage
 
+### Configuration
+
+1. Initialize the configuration to define your **redis URL**
+
+```ruby
+Rcurtain.configure do |config|
+  # URL format -> redis://<password>@<ip>:<port>/<database>
+  config.url = 'redis://:p4ssw0rd@10.0.1.1:6380/15'
+end
+```
+
+2. Configure the **default response** of the service (Optional)
+
+```ruby
+Rcurtain.configure do |config|
+  # Default response when the feature is not found. Default: false
+  config.default_response = true
+end
+```
+
+3. Configure the **feature name format** (Optional)
+
+```ruby
+Rcurtain.configure do |config|
+  # Default format of the keys that will be saved to redis. Default: feature:<name>:
+  config.feature_name_format = '<name>:'
+end
+```
+
+Rcurtain uses a **percentage** or a **set of users** to control the features:
+```ruby
+# Percentage
+feature:<name>:percentage
+
+# Set of users
+feature:<name>:users
+```
+
+The `percentage` and `users` parameters will be added to the feature name format you configured before.
 * Rcurtain uses redis to control features, which can be checked by a **percentage** or a **set of users**.
 ```
 feature:[name-of-feature]:percentage
@@ -30,37 +69,73 @@ feature:[name-of-feature]:percentage
 feature:[name-of-feature]:users
 ```
 
-* To use Rcurtain, first your need to initialize the configuration defining your **redis URL** (password@ip:port/database). Optionally, you can also configure the **default response** when the feature is not found, which by default is false.
-```ruby
-Rcurtain.configure do |config|
-  config.url = 'redis://:p4ssw0rd@10.0.1.1:6380/15'
-  # config.default_response = true
-end
-```
+### Checking the features
 
-* Get the instance of Rcurtain.
+1. Get the instance of Rcurtain
 ```ruby
 rcurtain = Rcurtain.instance
 ```
 
-* Consult if the curtain is opened for a feature using the method "opened?", passing the name of the feature you want to check.
+2. Check if a feature is enabled or not
 ```ruby
-rcurtain.opened? 'feature'
+rcurtain.opened?('feature-name')
 ```
 
-* You can also pass a set of users to be checked.
+3. Or check if the feature is enabled for specific users
 ```ruby
-rcurtain.opened?('feature', ['user-1','user-2'])
+rcurtain.opened?('feature-name', ['user-1', 'user-2'])
+```
+
+4. You can also retrieve a list of users that have that feature enabled
+```ruby
+Rcurtain.feature.users('feature-name')
+```
+
+5. Or check the percentage for that feature
+```ruby
+Rcurtain.feature.percentage('feature-name')
+```
+
+### Controlling the features
+
+1. Enable a feature for specific users
+```ruby
+Rcurtain.feature.add_users('feature-name', ['user-1', 'user-2'])
+```
+
+2. Disable a feature for specific users
+```ruby
+Rcurtain.feature.remove_users('feature-name', ['user-2'])
+```
+
+3. Update the percentage for a feature
+```ruby
+Rcurtain.feature.update_percentage('percentage', 50)
 ```
 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/moip/rcurtain. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-1. Fork it ( https://github.com/moip/rcurtain/fork )
-2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -am 'Add some feature')
-4. Push to the branch (git push origin my-new-feature)
+1. Fork it (https://github.com/moip/rcurtain/fork)
+2. Create your feature branch
+
+```
+git checkout -b my-new-feature
+```
+
+3. Commit your changes
+
+```
+git commit -am 'Add some feature'
+```
+
+4. Push to the branch
+
+```
+git push origin my-new-feature
+```
+
 5. Create a new Pull Request
 
 ## License
