@@ -61,13 +61,6 @@ feature:<name>:users
 ```
 
 The `percentage` and `users` parameters will be added to the feature name format you configured before.
-* Rcurtain uses redis to control features, which can be checked by a **percentage** or a **set of users**.
-```
-feature:[name-of-feature]:percentage
-```
-```
-feature:[name-of-feature]:users
-```
 
 ### Checking the features
 
