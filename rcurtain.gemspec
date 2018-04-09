@@ -4,9 +4,11 @@ Gem::Specification.new do |s|
   s.date        = '2017-07-03'
   s.summary     = 'RCurtain'
   s.description = 'Open the curtain and see if your feature is enabled'
-  s.authors     = ['Danillo Souza', 'Gabriel Queiroz', 'Guilherme Sipoloni']
+  s.authors     = ['Danillo Souza', 'Gabriel Queiroz', 'Guilherme Sipoloni',
+                   'Lucas Queiroz']
   s.email       = ['danillo.souza@moip.com.br', 'gabriel.queiroz@moip.com.br',
-                   'guilehrme.sipoloni@moip.com.br']
+                   'guilherme.sipoloni@moip.com.br',
+                   'lucas.queiroz@moip.com.br']
   s.homepage    = 'http://github.com/moip/rcurtain'
   s.license     = 'MIT'
 
