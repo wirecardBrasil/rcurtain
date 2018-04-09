@@ -11,20 +11,20 @@ module Rcurtain
     end
 
     def opened?(feature_name, users = [])
-      percentage?(feature_name) || users?(feature_name, users)
+      percentage_allowed?(feature_name) || users_allowed?(feature_name, users)
     end
 
     private
 
-    def users?(feature_name, users = [])
-      allowed_users = Rcurtain.feature.users(feature_name)
+    def users_allowed?(feature_name, users = [])
+      allowed_users = Rcurtain.feature.array(feature_name)
       valid_users?(users) && users.all? { |user| allowed_users.include?(user) }
     rescue Redis::CannotConnectError
       Rcurtain.configuration.default_response
     end
 
-    def percentage?(feature_name)
-      allowed_percentage = Rcurtain.feature.percentage(feature_name)
+    def percentage_allowed?(feature_name)
+      allowed_percentage = Rcurtain.feature.number(feature_name)
       rand_percentage = @random.rand(1..100)
       rand_percentage <= allowed_percentage
     rescue Redis::CannotConnectError

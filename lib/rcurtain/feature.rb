@@ -9,7 +9,7 @@ module Rcurtain
       @redis = Redis.new(url: Rcurtain.configuration.url)
     end
 
-    def add_users(feature_name, users)
+    def add(feature_name, users)
       feature_name = feature_name_formatted(feature_name)
       users.each do |user|
         @redis.sadd(feature_name, user)
@@ -18,7 +18,7 @@ module Rcurtain
       Rcurtain.configuration.default_response
     end
 
-    def remove_users(feature_name, users)
+    def remove(feature_name, users)
       feature_name = feature_name_formatted(feature_name)
       users.each do |user|
         @redis.srem(feature_name, user)
@@ -27,17 +27,17 @@ module Rcurtain
       Rcurtain.configuration.default_response
     end
 
-    def update_percentage(feature_name, percentage)
+    def update(feature_name, percentage)
       @redis.set(feature_name_formatted(feature_name, 'percentage'), percentage)
     rescue Redis::CannotConnectError
       Rcurtain.configuration.default_response
     end
 
-    def users(feature_name)
+    def array(feature_name)
       @redis.smembers(feature_name_formatted(feature_name)) || []
     end
 
-    def percentage(feature_name)
+    def number(feature_name)
       @redis.get(feature_name_formatted(feature_name, 'percentage')).to_i || 0
     end
 

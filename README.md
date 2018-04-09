@@ -81,29 +81,29 @@ rcurtain.opened?('feature-name', ['user-1', 'user-2'])
 
 4. You can also retrieve a list of users that have that feature enabled
 ```ruby
-Rcurtain.feature.users('feature-name')
+Rcurtain.feature.array('feature-name')
 ```
 
 5. Or check the percentage for that feature
 ```ruby
-Rcurtain.feature.percentage('feature-name')
+Rcurtain.feature.number('feature-name')
 ```
 
 ### Controlling the features
 
 1. Enable a feature for specific users
 ```ruby
-Rcurtain.feature.add_users('feature-name', ['user-1', 'user-2'])
+Rcurtain.feature.add('feature-name', ['user-1', 'user-2'])
 ```
 
 2. Disable a feature for specific users
 ```ruby
-Rcurtain.feature.remove_users('feature-name', ['user-2'])
+Rcurtain.feature.remove('feature-name', ['user-2'])
 ```
 
 3. Update the percentage for a feature
 ```ruby
-Rcurtain.feature.update_percentage('percentage', 50)
+Rcurtain.feature.update('percentage', 50)
 ```
 
 ## Contributing

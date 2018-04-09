@@ -7,10 +7,10 @@ describe Rcurtain do
   let(:user) { ['MPA-00000000000'] }
   let(:users) { ['MPA-000000000000', 'MPA-111111111111'] }
 
-  describe '#add_user' do
+  describe '#add' do
     context 'when adding single user' do
       before do
-        subject.add_users('feature', user)
+        subject.add('feature', user)
       end
 
       it 'should be enabled to added user' do
@@ -20,7 +20,7 @@ describe Rcurtain do
 
     context 'when adding multiple users' do
       before do
-        subject.add_users('feature', users)
+        subject.add('feature', users)
       end
 
       it 'should be enabled to added users' do
@@ -29,14 +29,14 @@ describe Rcurtain do
     end
   end
 
-  describe '#remove_users' do
+  describe '#remove' do
     before do
-      subject.add_users('feature', users)
+      subject.add('feature', users)
     end
 
     context 'when removing single user' do
       before do
-        subject.remove_users('feature', user)
+        subject.remove('feature', user)
       end
 
       it 'should be disabled to removed user' do
@@ -46,7 +46,7 @@ describe Rcurtain do
 
     context 'when removing multiple users' do
       before do
-        subject.remove_users('feature', users)
+        subject.remove('feature', users)
       end
 
       it 'should be disabled to removed users' do
@@ -55,10 +55,10 @@ describe Rcurtain do
     end
   end
 
-  describe '#update_percentage' do
+  describe '#update' do
     context 'when updating percentage to 100 percent' do
       before do
-        subject.update_percentage('feature', 100)
+        subject.update('feature', 100)
       end
 
       it 'should be enabled to all users' do
@@ -68,7 +68,7 @@ describe Rcurtain do
 
     context 'when updating percentage to 0 percent' do
       before do
-        subject.update_percentage('feature', 0)
+        subject.update('feature', 0)
       end
 
       it 'should be disabled to all users' do
@@ -77,34 +77,34 @@ describe Rcurtain do
     end
   end
 
-  describe '#users' do
+  describe '#array' do
     context 'when there are users enabled' do
       before do
-        subject.add_users('feature', users)
+        subject.add('feature', users)
       end
 
       it 'should return list with all added users' do
-        expect(subject.users('feature').sort).to eq(users.sort)
+        expect(subject.array('feature').sort).to eq(users.sort)
       end
     end
 
     context 'when there are no users enabled' do
       it 'should return empty user list' do
-        expect(subject.users('feature')).to be_empty
+        expect(subject.array('feature')).to be_empty
       end
     end
   end
 
-  describe '#percentage' do
+  describe '#number' do
     context 'when percentage is any value' do
       let(:rand) { Random.new.rand(1..100) }
 
       before do
-        subject.update_percentage('feature', rand)
+        subject.update('feature', rand)
       end
 
       it 'should return correct percentage value' do
-        expect(subject.percentage('feature')).to eq(rand)
+        expect(subject.number('feature')).to eq(rand)
       end
     end
   end
