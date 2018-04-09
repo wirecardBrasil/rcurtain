@@ -23,23 +23,18 @@ describe Rcurtain do
     end
 
     context 'when percentage is fully closed' do
-      context 'and all users are enabled' do
-        before do
-          allow_any_instance_of(Redis).to receive(:get).and_return(0)
-          allow_any_instance_of(Redis).to receive(:smembers).and_return(user)
-        end
+      before do
+        allow_any_instance_of(Redis).to receive(:get).and_return(0)
+        allow_any_instance_of(Redis).to receive(:smembers).and_return(user)
+      end
 
+      context 'and all users are enabled' do
         it 'should be true' do
           expect(subject.opened?('feature', user)).to be true
         end
       end
 
       context 'and only one user is enabled' do
-        before do
-          allow_any_instance_of(Redis).to receive(:get).and_return(0)
-          allow_any_instance_of(Redis).to receive(:smembers).and_return(user)
-        end
-
         it 'should be false' do
           expect(subject.opened?('feature', users)).to be false
         end
@@ -47,7 +42,6 @@ describe Rcurtain do
 
       context 'and no user is enabled' do
         before do
-          allow_any_instance_of(Redis).to receive(:get).and_return(0)
           allow_any_instance_of(Redis).to receive(:smembers).and_return(nil)
         end
 
