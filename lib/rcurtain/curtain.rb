@@ -17,9 +17,8 @@ module Rcurtain
     private
 
     def users?(feature_name, users = [])
-      return false if users.empty?
       allowed_users = Rcurtain.feature.users(feature_name)
-      users.all? { |user| allowed_users.include?(user) }
+      valid_users?(users) && users.all? { |user| allowed_users.include?(user) }
     rescue Redis::CannotConnectError
       Rcurtain.configuration.default_response
     end
@@ -30,6 +29,10 @@ module Rcurtain
       rand_percentage <= allowed_percentage
     rescue Redis::CannotConnectError
       Rcurtain.configuration.default_response
+    end
+
+    def valid_users?(users)
+      !users.nil? && !users.empty?
     end
   end
 end
