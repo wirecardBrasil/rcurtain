@@ -4,25 +4,22 @@ require 'fakeredis/rspec'
 describe Rcurtain do
   subject(:rcurtain) { Rcurtain.feature }
   let(:curtain) { Rcurtain.instance }
-  let(:user) { ['MPA-00000000000'] }
   let(:users) { ['MPA-000000000000', 'MPA-111111111111'] }
 
   describe '#add' do
+    before do
+      subject.add('feature', users)
+    end
+
     context 'when adding single user' do
-      before do
-        subject.add('feature', user)
-      end
+      let(:users) { ['MPA-00000000000'] }
 
       it 'should be enabled to added user' do
-        expect(curtain.opened?('feature', user)).to be true
+        expect(curtain.opened?('feature', users)).to be true
       end
     end
 
     context 'when adding multiple users' do
-      before do
-        subject.add('feature', users)
-      end
-
       it 'should be enabled to added users' do
         expect(curtain.opened?('feature', users)).to be true
       end
@@ -32,23 +29,18 @@ describe Rcurtain do
   describe '#remove' do
     before do
       subject.add('feature', users)
+      subject.remove('feature', users)
     end
 
     context 'when removing single user' do
-      before do
-        subject.remove('feature', user)
-      end
+      let(:users) { ['MPA-00000000000'] }
 
       it 'should be disabled to removed user' do
-        expect(curtain.opened?('feature', user)).to be false
+        expect(curtain.opened?('feature', users)).to be false
       end
     end
 
     context 'when removing multiple users' do
-      before do
-        subject.remove('feature', users)
-      end
-
       it 'should be disabled to removed users' do
         expect(curtain.opened?('feature', users)).to be false
       end
@@ -56,10 +48,12 @@ describe Rcurtain do
   end
 
   describe '#update' do
+    before do
+      subject.update('feature', percentage)
+    end
+
     context 'when updating percentage to 100 percent' do
-      before do
-        subject.update('feature', 100)
-      end
+      let(:percentage) { 100 }
 
       it 'should be enabled to all users' do
         expect(curtain.opened?('feature')).to be true
@@ -67,9 +61,7 @@ describe Rcurtain do
     end
 
     context 'when updating percentage to 0 percent' do
-      before do
-        subject.update('feature', 0)
-      end
+      let(:percentage) { 0 }
 
       it 'should be disabled to all users' do
         expect(curtain.opened?('feature')).to be false
