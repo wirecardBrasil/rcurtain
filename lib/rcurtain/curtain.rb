@@ -11,8 +11,7 @@ module Rcurtain
     end
 
     def opened?(feature, users = [])
-      return users_enabled?(feature, users) unless invalid_users?(users)
-      compare_percentage?(percentage(feature))
+      compare_percentage?(percentage(feature)) || users_enabled?(feature, users)
     rescue Redis::CannotConnectError
       return Rcurtain.configuration.default_response
     end
@@ -33,6 +32,7 @@ module Rcurtain
       end
 
       def users_enabled?(feature_name, users = [])
+        return false if invalid_users?(users)
         users.all? { |user| redis.sismember(feature_name, user) }
       end
 
