@@ -11,10 +11,8 @@ module Rcurtain
     end
 
     def opened?(feature, users = [])
-      feature_percentage = percentage(feature)
-      return (compare_percentage?(feature_percentage)) || users_enabled?(feature, users) unless users.empty?
-
-      compare_percentage?(feature_percentage)
+      return users_enabled?(feature, users) unless invalid_users?(users)
+      compare_percentage?(percentage(feature))
     rescue Redis::CannotConnectError
       return Rcurtain.configuration.default_response
     end
@@ -47,5 +45,8 @@ module Rcurtain
         rnd.rand(1..100) <= percentage.to_f
       end
 
+      def invalid_users?(users)
+        users.nil? || users.empty?
+      end
   end
 end
