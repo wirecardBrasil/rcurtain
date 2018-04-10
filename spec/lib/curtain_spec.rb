@@ -1,4 +1,5 @@
 require "spec_helper"
+require 'fakeredis/rspec'
 
 describe Rcurtain do
 
@@ -15,7 +16,7 @@ describe Rcurtain do
     context "when 100%" do
       before do
         allow_any_instance_of(Redis).to receive(:get).and_return(100)
-        allow_any_instance_of(Redis).to receive(:smembers).and_return(nil)
+        allow_any_instance_of(Redis).to receive(:sismember).and_return(false)
       end
 
       it { expect(rcurtain.opened? "feature").to be true }
@@ -24,7 +25,7 @@ describe Rcurtain do
     context "when user exists" do
       before do
         allow_any_instance_of(Redis).to receive(:get).and_return(0)
-        allow_any_instance_of(Redis).to receive(:smembers).and_return(['MPA-123'])
+        allow_any_instance_of(Redis).to receive(:sismember).and_return(true)
       end
 
       it { expect(rcurtain.opened?("feature", ['MPA-123'])).to be true }

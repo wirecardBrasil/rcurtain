@@ -10,10 +10,11 @@ module Rcurtain
       @redis = Redis.new(:url => Rcurtain.configuration.url)
     end
 
-    def opened? (feature, users = [])
-      feature_percentage = compare_percentage?(percentage(feature))
-      return feature_percentage || users_enabled?(feature, users) unless users.empty?
-      feature_percentage
+    def opened?(feature, users = [])
+      feature_percentage = percentage(feature)
+      return (compare_percentage?(feature_percentage)) || users_enabled?(feature, users) unless users.empty?
+
+      compare_percentage?(feature_percentage)
     rescue Redis::CannotConnectError
       return Rcurtain.configuration.default_response
     end
@@ -38,7 +39,7 @@ module Rcurtain
       end
 
       def percentage(feature_name)
-        redis.get("feature:#{name}:percentage") || 0
+        redis.get("feature:#{feature_name}:percentage") || 0
       end
 
       def compare_percentage? (percentage)
