@@ -11,11 +11,9 @@ module Rcurtain
     end
 
     def opened? (feature, users = [])
-      feat = get_feature(feature)
-
-      return (compare_percentage?(feat.percentage)) || (users.any? { |user| feat.users.include?(user)}) unless users.empty?
-
-      compare_percentage?(feat.percentage)
+      feature_percentage = compare_percentage?(percentage(feature))
+      return feature_percentage || users_enabled?(feature, users) unless users.empty?
+      feature_percentage
     rescue Redis::CannotConnectError
       return Rcurtain.configuration.default_response
     end
@@ -23,7 +21,7 @@ module Rcurtain
     def get_users(feature)
       get_feature(feature).users
     rescue Redis::CannotConnectError
-        Rcurtain.configuration.default_response    
+        Rcurtain.configuration.default_response
     end
 
     private
@@ -33,6 +31,14 @@ module Rcurtain
         users = redis.smembers("feature:#{name}:users") || []
 
         return Feature.new(name, percentage, users)
+      end
+
+      def users_enabled?(feature_name, users = [])
+        users.all? { |user| redis.sismember(feature_name, user) }
+      end
+
+      def percentage(feature_name)
+        redis.get("feature:#{name}:percentage") || 0
       end
 
       def compare_percentage? (percentage)
