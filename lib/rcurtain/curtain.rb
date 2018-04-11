@@ -33,7 +33,7 @@ module Rcurtain
 
       def users_enabled?(feature_name, users = [])
         return false if invalid_users?(users)
-        users.all? { |user| redis.sismember(feature_name, user) }
+        users.all? { |user| redis.sismember("feature:#{feature_name}:users", user) }
       end
 
       def invalid_users?(users)
