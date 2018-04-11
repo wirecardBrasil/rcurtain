@@ -15,5 +15,6 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "hiredis"
   s.add_runtime_dependency "redis", "~>3.2"
+  s.add_development_dependency 'fakeredis'
   s.add_development_dependency "rspec"
 end
