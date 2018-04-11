@@ -36,6 +36,10 @@ module Rcurtain
         users.all? { |user| redis.sismember(feature_name, user) }
       end
 
+      def invalid_users?(users)
+        users.nil? || users.empty?
+      end
+
       def percentage(feature_name)
         redis.get("feature:#{feature_name}:percentage") || 0
       end
@@ -43,10 +47,6 @@ module Rcurtain
       def compare_percentage? (percentage)
         rnd = Random.new
         rnd.rand(1..100) <= percentage.to_f
-      end
-
-      def invalid_users?(users)
-        users.nil? || users.empty?
       end
   end
 end
