@@ -47,6 +47,19 @@ describe Rcurtain do
     end
   end
 
+  describe '#delete_users' do
+    before do
+      subject.add('feature', users)
+      subject.delete_users('feature')
+    end
+
+    context 'when deleting all users from feature' do
+      it 'should delete all users' do
+        expect(subject.user?('feature', 'MPA-000000000000')).to be false
+      end
+    end
+  end
+
   describe '#update' do
     before do
       subject.update('feature', percentage)
@@ -69,20 +82,14 @@ describe Rcurtain do
     end
   end
 
-  describe '#array' do
-    context 'when there are users enabled' do
-      before do
-        subject.add('feature', users)
-      end
-
-      it 'should return list with all added users' do
-        expect(subject.array('feature').sort).to eq(users.sort)
-      end
+  describe '#user?' do
+    before do
+      subject.add('feature', users)
     end
 
-    context 'when there are no users enabled' do
-      it 'should return empty user list' do
-        expect(subject.array('feature')).to be_empty
+    context 'when user is enabled' do
+      it 'should be enabled for user' do
+        expect(subject.user?('feature', users[0])).to be true
       end
     end
   end

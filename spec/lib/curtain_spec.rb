@@ -10,12 +10,13 @@ describe Rcurtain do
   describe '#opened?' do
 
     context 'when connection is successful' do
-      before do
-        allow_any_instance_of(Redis).to receive(:get).and_return(percentage)
-        allow_any_instance_of(Redis).to receive(:smembers).and_return(users)
-      end
-
       let(:users) { ['MPA-000000000000', 'MPA-111111111111'] }
+
+      before do
+        Rcurtain.feature.delete_users('feature')
+        Rcurtain.feature.update('feature', percentage)
+        Rcurtain.feature.add('feature', users) unless users.nil?
+      end
 
       context 'when percentage is fully opened' do
         let(:percentage) { 100 }
@@ -36,10 +37,12 @@ describe Rcurtain do
         end
 
         context 'and only one user is enabled' do
-          let(:users) { ['MPA-000000000000'] }
+          before do
+            Rcurtain.feature.remove('feature', users)
+            Rcurtain.feature.add('feature', ['MPA-000000000000'])
+          end
 
           it 'should be false' do
-            users = ['MPA-000000000000', 'MPA-111111111111']
             expect(subject.opened?('feature', users)).to be false
           end
         end
@@ -57,7 +60,7 @@ describe Rcurtain do
     context 'when connection fails' do
       before do
         allow_any_instance_of(Redis).to receive(:get).and_raise(Redis::CannotConnectError)
-        allow_any_instance_of(Redis).to receive(:smembers).and_raise(Redis::CannotConnectError)
+        allow_any_instance_of(Redis).to receive(:sismember).and_raise(Redis::CannotConnectError)
       end
 
       it 'should be false' do

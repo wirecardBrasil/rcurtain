@@ -17,8 +17,9 @@ module Rcurtain
     private
 
     def users_allowed?(feature_name, users = [])
-      allowed_users = Rcurtain.feature.array(feature_name)
-      valid_users?(users) && users.all? { |user| allowed_users.include?(user) }
+      valid_users?(users) && users.all? do |user|
+        Rcurtain.feature.user?(feature_name, user)
+      end
     rescue Redis::CannotConnectError
       Rcurtain.configuration.default_response
     end

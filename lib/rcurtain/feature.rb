@@ -27,14 +27,20 @@ module Rcurtain
       Rcurtain.configuration.default_response
     end
 
+    def delete_users(feature_name)
+      @redis.del(feature_name_formatted(feature_name))
+    rescue Redis::CannotConnectError
+      Rcurtain.configuration.default_response
+    end
+
     def update(feature_name, percentage)
       @redis.set(feature_name_formatted(feature_name, 'percentage'), percentage)
     rescue Redis::CannotConnectError
       Rcurtain.configuration.default_response
     end
 
-    def array(feature_name)
-      @redis.smembers(feature_name_formatted(feature_name)) || []
+    def user?(feature_name, user)
+      @redis.sismember(feature_name_formatted(feature_name), user)
     end
 
     def number(feature_name)
