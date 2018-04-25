@@ -10,7 +10,7 @@ module Rcurtain
     end
 
     def add(feature_name, users)
-      feature_name = feature_name_formatted(feature_name)
+      feature_name = format_name(feature_name)
       users.each do |user|
         @redis.sadd(feature_name, user)
       end
@@ -19,7 +19,7 @@ module Rcurtain
     end
 
     def remove(feature_name, users)
-      feature_name = feature_name_formatted(feature_name)
+      feature_name = format_name(feature_name)
       users.each do |user|
         @redis.srem(feature_name, user)
       end
@@ -28,28 +28,38 @@ module Rcurtain
     end
 
     def delete_users(feature_name)
-      @redis.del(feature_name_formatted(feature_name))
+      @redis.del(format_name(feature_name))
     rescue Redis::CannotConnectError
       Rcurtain.configuration.default_response
     end
 
     def update(feature_name, percentage)
-      @redis.set(feature_name_formatted(feature_name, 'percentage'), percentage)
+      @redis.set(format_name(feature_name, 'percentage'), percentage)
+    rescue Redis::CannotConnectError
+      Rcurtain.configuration.default_response
+    end
+
+    def describe(feature_name, description)
+      @redis.set(format_name(feature_name, 'description'), description)
     rescue Redis::CannotConnectError
       Rcurtain.configuration.default_response
     end
 
     def user?(feature_name, user)
-      @redis.sismember(feature_name_formatted(feature_name), user)
+      @redis.sismember(format_name(feature_name), user)
     end
 
     def number(feature_name)
-      @redis.get(feature_name_formatted(feature_name, 'percentage')).to_i || 0
+      @redis.get(format_name(feature_name, 'percentage')).to_i || 0
+    end
+
+    def description(feature_name)
+      @redis.get(format_name(feature_name, 'description')) || ''
     end
 
     private
 
-    def feature_name_formatted(feature_name, scope = 'users')
+    def format_name(feature_name, scope = 'users')
       feature_name_format = Rcurtain.configuration.feature_name_format
       feature_name_format.sub('%name%', feature_name) + scope
     end

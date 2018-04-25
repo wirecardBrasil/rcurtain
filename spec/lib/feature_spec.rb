@@ -82,6 +82,18 @@ describe Rcurtain do
     end
   end
 
+  describe 'description' do
+    before do
+      subject.describe('feature', 'Feature Description')
+    end
+
+    context 'when description is set' do
+      it 'should have description' do
+        expect(subject.description('feature')).to eq('Feature Description')
+      end
+    end
+  end
+
   describe '#user?' do
     before do
       subject.add('feature', users)
