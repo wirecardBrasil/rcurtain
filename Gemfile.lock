@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rcurtain (0.0.6)
+    rcurtain (0.0.7)
       hiredis
       redis (~> 3.2)
 
@@ -36,4 +36,4 @@ DEPENDENCIES
   rspec
 
 BUNDLED WITH
-   1.16.0
+   1.16.1
