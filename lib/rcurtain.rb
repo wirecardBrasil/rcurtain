@@ -24,4 +24,8 @@ module RCurtain
       @feature ||= Feature.instance
     end
   end
+
+  def self.feature
+    @feature ||= Feature.instance
+  end
 end
