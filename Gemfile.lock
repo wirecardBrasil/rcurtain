@@ -1,11 +1,7 @@
 PATH
   remote: .
   specs:
-<<<<<<< HEAD
-    rcurtain (0.0.7)
-=======
-    rcurtain (0.1.0)
->>>>>>> 9f43280ea143eaf69cac922eb638ed1a9c932982
+    rcurtain (1.0.0)
       hiredis
       redis (~> 3.2)
 

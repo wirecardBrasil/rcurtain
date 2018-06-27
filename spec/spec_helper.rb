@@ -8,3 +8,5 @@ require 'rspec'
 require 'rcurtain'
 
 RSpec.configure(&:raise_errors_for_deprecations!)
+
+require 'fakeredis'
