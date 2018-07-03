@@ -53,18 +53,6 @@ describe RCurtain do
         end
       end
 
-      context 'when configuring save users' do
-        before do
-          RCurtain.configure do |config|
-            config.save_users = false
-          end
-        end
-
-        it 'has correct save users' do
-          expect(subject.save_users).to be false
-        end
-      end
-
       context 'when configuring feature name format' do
         before do
           RCurtain.configure do |config|
