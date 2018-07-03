@@ -9,7 +9,7 @@ module RCurtain
       @redis = Redis.new(url: RCurtain.configuration.url)
     end
 
-    def add(feature_name, users)
+    def add_user(feature_name, users)
       feature_name = format_name(feature_name, 'users')
       users.each do |user|
         @redis.sadd(feature_name, user)
@@ -18,7 +18,7 @@ module RCurtain
       RCurtain.configuration.default_response
     end
 
-    def remove(feature_name, users)
+    def remove_user(feature_name, users)
       feature_name = format_name(feature_name, 'users')
       users.each do |user|
         @redis.srem(feature_name, user)
@@ -27,7 +27,7 @@ module RCurtain
       RCurtain.configuration.default_response
     end
 
-    def update(feature_name, percentage)
+    def set_percentage(feature_name, percentage)
       feature_name = format_name(feature_name, 'percentage')
       @redis.set(feature_name, percentage)
     rescue Redis::CannotConnectError
@@ -41,21 +41,21 @@ module RCurtain
       RCurtain.configuration.default_response
     end
 
-    def list(feature_name)
+    def list_users(feature_name)
       feature_name = format_name(feature_name, 'users')
       @redis.smembers(feature_name)
     rescue Redis::CannotConnectError
       RCurtain.configuration.default_response
     end
 
-    def user?(feature_name, user)
+    def user_enabled?(feature_name, user)
       feature_name = format_name(feature_name, 'users')
       @redis.sismember(feature_name, user)
     rescue Redis::CannotConnectError
       RCurtain.configuration.default_response
     end
 
-    def number(feature_name)
+    def percentage(feature_name)
       feature_name = format_name(feature_name, 'percentage')
       @redis.get(feature_name)
     rescue Redis::CannotConnectError
@@ -68,6 +68,8 @@ module RCurtain
     rescue Redis::CannotConnectError
       RCurtain.configuration.default_description
     end
+
+    private
 
     def format_name(name, scope)
       feature_name_format = RCurtain.configuration.feature_name_format

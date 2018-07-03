@@ -1,4 +1,4 @@
-require '../../spec_helper'
+require 'spec_helper'
 
 describe RCurtain do
   describe 'Curtain' do
@@ -10,7 +10,7 @@ describe RCurtain do
 
     describe '#open?' do
       before do
-        feature.add(feature_name, users)
+        feature.add_user(feature_name, users)
       end
 
       context 'when checking if user is enabled' do

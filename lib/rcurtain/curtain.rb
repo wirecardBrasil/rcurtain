@@ -18,7 +18,7 @@ module RCurtain
 
     def users_allowed?(feature_name, users)
       valid_users?(users) && users.all? do |user|
-        RCurtain.feature.user?(feature_name, user)
+        RCurtain.feature.user_enabled?(feature_name, user)
       end
     rescue Redis::CannotConnectError
       RCurtain.configuration.default_response
@@ -29,14 +29,14 @@ module RCurtain
       rand_percentage = @random.rand(0..100)
       allowed = rand_percentage <= allowed_percentage
       save_users = RCurtain.configuration.save_users
-      RCurtain.feature.add(feature_name, users) if allowed && save_users
+      RCurtain.feature.add_user(feature_name, users) if allowed && save_users
       allowed
     rescue Redis::CannotConnectError
       RCurtain.configuration.default_percentage
     end
 
     def allowed_percentage(feature_name)
-      allowed_percentage = RCurtain.feature.number(feature_name)
+      allowed_percentage = RCurtain.feature.percentage(feature_name)
       default_percentage = RCurtain.configuration.default_percentage
       allowed_percentage.nil? ? default_percentage : allowed_percentage
     end

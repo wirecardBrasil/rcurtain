@@ -1,4 +1,4 @@
-require '../../spec_helper'
+require 'spec_helper'
 
 describe RCurtain do
   describe 'Configuration' do

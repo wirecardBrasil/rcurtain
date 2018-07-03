@@ -1,4 +1,4 @@
-require '../../spec_helper'
+require 'spec_helper'
 
 describe RCurtain do
   describe 'Feature' do
@@ -8,11 +8,11 @@ describe RCurtain do
 
     describe 'users' do
       let(:users) { ['MPA-000000000000'] }
-      let(:feature_users) { subject.format_name(feature_name, 'users') }
+      let(:feature_users) { subject.send('format_name', feature_name, 'users') }
 
-      describe '#add' do
+      describe '#add_user' do
         before do
-          subject.add(feature_name, users)
+          subject.add_user(feature_name, users)
         end
 
         context 'when adding user' do
@@ -22,9 +22,9 @@ describe RCurtain do
         end
       end
 
-      describe '#remove' do
+      describe '#remove_user' do
         before do
-          subject.remove(feature_name, users)
+          subject.remove_user(feature_name, users)
         end
 
         context 'when removing user' do
@@ -34,33 +34,35 @@ describe RCurtain do
         end
       end
 
-      describe '#list' do
+      describe '#list_users' do
         before do
-          subject.add(feature_name, users)
+          subject.add_user(feature_name, users)
         end
 
         context 'when listing users' do
           it 'has correct user list' do
-            expect(subject.list(feature_name)).to eq(users)
+            expect(subject.list_users(feature_name)).to eq(users)
           end
         end
       end
 
-      describe '#user?' do
+      describe '#user_enabled?' do
         context 'when checking if user is enabled' do
           it 'is enabled for user' do
-            expect(subject.user?(feature_name, users[0])).to be true
+            expect(subject.user_enabled?(feature_name, users[0])).to be true
           end
         end
       end
     end
 
     describe 'percentage' do
-      let(:feature_percentage) { subject.format_name(feature_name, 'percentage') }
+      let(:feature_percentage) do
+        subject.send('format_name', feature_name, 'percentage')
+      end
 
-      describe '#update' do
+      describe '#set_percentage' do
         before do
-          subject.update(feature_name, 100)
+          subject.set_percentage(feature_name, 100)
         end
 
         context 'when updating percentage' do
@@ -70,17 +72,19 @@ describe RCurtain do
         end
       end
 
-      describe '#number' do
+      describe '#percentage' do
         context 'when retrieving percentage' do
           it 'has correct percentage' do
-            expect(subject.number(feature_name).to_i).to eq(100)
+            expect(subject.percentage(feature_name).to_i).to eq(100)
           end
         end
       end
     end
 
     describe 'description' do
-      let(:feature_desc) { subject.format_name(feature_name, 'description') }
+      let(:feature_desc) do
+        subject.send('format_name', feature_name, 'description')
+      end
       let(:description) { 'Description' }
 
       describe '#describe' do
