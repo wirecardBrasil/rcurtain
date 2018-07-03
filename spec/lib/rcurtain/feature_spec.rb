@@ -3,7 +3,6 @@ require 'spec_helper'
 describe RCurtain do
   describe 'Feature' do
     subject(:feature) { RCurtain.feature }
-    let(:redis) { Redis.new }
     let(:feature_name) { 'feature' }
 
     describe 'users' do
@@ -17,7 +16,20 @@ describe RCurtain do
 
         context 'when adding user' do
           it 'is enabled for user' do
-            expect(redis.smembers(feature_users)).to eq(users)
+            expect(subject.list_users(feature_name)).to eq(users)
+          end
+        end
+
+        context 'when redis connection fails' do
+          before do
+            allow_any_instance_of(Redis).to receive(:sadd) do
+              raise Redis::CannotConnectError.new
+            end
+          end
+
+          it 'returns default value' do
+            expect(subject.add_user(feature_name, users))
+              .to eq(RCurtain.configuration.default_response)
           end
         end
       end
@@ -29,7 +41,20 @@ describe RCurtain do
 
         context 'when removing user' do
           it 'is disabled for user' do
-            expect(redis.smembers(feature_users).size).to eq(0)
+            expect(subject.list_users(feature_name).size).to eq(0)
+          end
+        end
+
+        context 'when redis connection fails' do
+          before do
+            allow_any_instance_of(Redis).to receive(:srem) do
+              raise Redis::CannotConnectError.new
+            end
+          end
+
+          it 'returns default value' do
+            expect(subject.remove_user(feature_name, users))
+              .to eq(RCurtain.configuration.default_response)
           end
         end
       end
@@ -44,12 +69,38 @@ describe RCurtain do
             expect(subject.list_users(feature_name)).to eq(users)
           end
         end
+
+        context 'when redis connection fails' do
+          before do
+            allow_any_instance_of(Redis).to receive(:smembers) do
+              raise Redis::CannotConnectError.new
+            end
+          end
+
+          it 'returns default value' do
+            expect(subject.list_users(feature_name))
+              .to eq(RCurtain.configuration.default_response)
+          end
+        end
       end
 
       describe '#user_enabled?' do
         context 'when checking if user is enabled' do
           it 'is enabled for user' do
             expect(subject.user_enabled?(feature_name, users[0])).to be true
+          end
+        end
+
+        context 'when redis connection fails' do
+          before do
+            allow_any_instance_of(Redis).to receive(:sismember) do
+              raise Redis::CannotConnectError.new
+            end
+          end
+
+          it 'returns default value' do
+            expect(subject.user_enabled?(feature_name, users[0]))
+              .to eq(RCurtain.configuration.default_response)
           end
         end
       end
@@ -67,7 +118,20 @@ describe RCurtain do
 
         context 'when updating percentage' do
           it 'has correct percentage' do
-            expect(redis.get(feature_percentage).to_i).to eq(100)
+            expect(subject.percentage(feature_name)).to eq(100)
+          end
+        end
+
+        context 'when redis connection fails' do
+          before do
+            allow_any_instance_of(Redis).to receive(:set) do
+              raise Redis::CannotConnectError.new
+            end
+          end
+
+          it 'returns default value' do
+            expect(subject.set_percentage(feature_name, 100))
+              .to eq(RCurtain.configuration.default_response)
           end
         end
       end
@@ -76,6 +140,19 @@ describe RCurtain do
         context 'when retrieving percentage' do
           it 'has correct percentage' do
             expect(subject.percentage(feature_name).to_i).to eq(100)
+          end
+        end
+
+        context 'when redis connection fails' do
+          before do
+            allow_any_instance_of(Redis).to receive(:get) do
+              raise Redis::CannotConnectError.new
+            end
+          end
+
+          it 'returns default value' do
+            expect(subject.percentage(feature_name))
+              .to eq(RCurtain.configuration.default_percentage)
           end
         end
       end
@@ -94,7 +171,20 @@ describe RCurtain do
 
         context 'when setting description' do
           it 'has correct description' do
-            expect(redis.get(feature_desc)).to eq(description)
+            expect(feature.description(feature_name)).to eq(description)
+          end
+        end
+
+        context 'when redis connection fails' do
+          before do
+            allow_any_instance_of(Redis).to receive(:set) do
+              raise Redis::CannotConnectError.new
+            end
+          end
+
+          it 'returns default value' do
+            expect(subject.describe(feature_name, description))
+              .to eq(RCurtain.configuration.default_response)
           end
         end
       end
@@ -103,6 +193,19 @@ describe RCurtain do
         context 'when retrieving feature description' do
           it 'has correct description' do
             expect(subject.description(feature_name)).to eq(description)
+          end
+        end
+
+        context 'when redis connection fails' do
+          before do
+            allow_any_instance_of(Redis).to receive(:get) do
+              raise Redis::CannotConnectError.new
+            end
+          end
+
+          it 'returns default value' do
+            expect(subject.description(feature_name))
+              .to eq(RCurtain.configuration.default_description)
           end
         end
       end

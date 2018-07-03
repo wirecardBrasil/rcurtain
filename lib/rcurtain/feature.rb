@@ -57,7 +57,7 @@ module RCurtain
 
     def percentage(feature_name)
       feature_name = format_name(feature_name, 'percentage')
-      @redis.get(feature_name)
+      @redis.get(feature_name).to_i
     rescue Redis::CannotConnectError
       RCurtain.configuration.default_percentage
     end
