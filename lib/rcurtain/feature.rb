@@ -9,7 +9,7 @@ module RCurtain
       @redis = Redis.new(url: RCurtain.configuration.url)
     end
 
-    def add_user(feature_name, users)
+    def add_users(feature_name, users)
       feature_name = format_name(feature_name, 'users')
       users.each do |user|
         @redis.sadd(feature_name, user)
@@ -18,7 +18,7 @@ module RCurtain
       RCurtain.configuration.default_response
     end
 
-    def remove_user(feature_name, users)
+    def remove_users(feature_name, users)
       feature_name = format_name(feature_name, 'users')
       users.each do |user|
         @redis.srem(feature_name, user)

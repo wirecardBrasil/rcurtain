@@ -2,7 +2,12 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do
+  require 'simplecov-shield'
+  SimpleCov.formatter = SimpleCov::Formatter::ShieldFormatter
+  add_filter '/spec/'
+  SimpleCov.minimum_coverage 95
+end
 
 require 'bundler/setup'
 Bundler.setup
@@ -13,3 +18,9 @@ require 'rcurtain'
 RSpec.configure(&:raise_errors_for_deprecations!)
 
 require 'fakeredis'
+
+def fail_redis(symbol)
+  allow_any_instance_of(Redis).to receive(symbol) do
+    raise Redis::CannotConnectError.new
+  end
+end

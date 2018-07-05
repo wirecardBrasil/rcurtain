@@ -9,9 +9,9 @@ describe RCurtain do
       let(:users) { ['MPA-000000000000'] }
       let(:feature_users) { subject.send('format_name', feature_name, 'users') }
 
-      describe '#add_user' do
+      describe '#add_users' do
         before do
-          subject.add_user(feature_name, users)
+          subject.add_users(feature_name, users)
         end
 
         context 'when adding user' do
@@ -22,21 +22,19 @@ describe RCurtain do
 
         context 'when redis connection fails' do
           before do
-            allow_any_instance_of(Redis).to receive(:sadd) do
-              raise Redis::CannotConnectError.new
-            end
+            fail_redis(:sadd)
           end
 
           it 'returns default value' do
-            expect(subject.add_user(feature_name, users))
+            expect(subject.add_users(feature_name, users))
               .to eq(RCurtain.configuration.default_response)
           end
         end
       end
 
-      describe '#remove_user' do
+      describe '#remove_users' do
         before do
-          subject.remove_user(feature_name, users)
+          subject.remove_users(feature_name, users)
         end
 
         context 'when removing user' do
@@ -47,13 +45,11 @@ describe RCurtain do
 
         context 'when redis connection fails' do
           before do
-            allow_any_instance_of(Redis).to receive(:srem) do
-              raise Redis::CannotConnectError.new
-            end
+            fail_redis(:srem)
           end
 
           it 'returns default value' do
-            expect(subject.remove_user(feature_name, users))
+            expect(subject.remove_users(feature_name, users))
               .to eq(RCurtain.configuration.default_response)
           end
         end
@@ -61,7 +57,7 @@ describe RCurtain do
 
       describe '#list_users' do
         before do
-          subject.add_user(feature_name, users)
+          subject.add_users(feature_name, users)
         end
 
         context 'when listing users' do
@@ -72,9 +68,7 @@ describe RCurtain do
 
         context 'when redis connection fails' do
           before do
-            allow_any_instance_of(Redis).to receive(:smembers) do
-              raise Redis::CannotConnectError.new
-            end
+            fail_redis(:smembers)
           end
 
           it 'returns default value' do
@@ -93,9 +87,7 @@ describe RCurtain do
 
         context 'when redis connection fails' do
           before do
-            allow_any_instance_of(Redis).to receive(:sismember) do
-              raise Redis::CannotConnectError.new
-            end
+            fail_redis(:sismember)
           end
 
           it 'returns default value' do
@@ -124,9 +116,7 @@ describe RCurtain do
 
         context 'when redis connection fails' do
           before do
-            allow_any_instance_of(Redis).to receive(:set) do
-              raise Redis::CannotConnectError.new
-            end
+            fail_redis(:set)
           end
 
           it 'returns default value' do
@@ -145,9 +135,7 @@ describe RCurtain do
 
         context 'when redis connection fails' do
           before do
-            allow_any_instance_of(Redis).to receive(:get) do
-              raise Redis::CannotConnectError.new
-            end
+            fail_redis(:get)
           end
 
           it 'returns default value' do
@@ -177,9 +165,7 @@ describe RCurtain do
 
         context 'when redis connection fails' do
           before do
-            allow_any_instance_of(Redis).to receive(:set) do
-              raise Redis::CannotConnectError.new
-            end
+            fail_redis(:set)
           end
 
           it 'returns default value' do
@@ -198,9 +184,7 @@ describe RCurtain do
 
         context 'when redis connection fails' do
           before do
-            allow_any_instance_of(Redis).to receive(:get) do
-              raise Redis::CannotConnectError.new
-            end
+            fail_redis(:get)
           end
 
           it 'returns default value' do
