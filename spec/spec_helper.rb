@@ -21,6 +21,6 @@ require 'fakeredis'
 
 def fail_redis(symbol)
   allow_any_instance_of(Redis).to receive(symbol) do
-    raise Redis::CannotConnectError.new('Fail for test')
+    raise Redis::CannotConnectError.new, 'Fail for test'
   end
 end
