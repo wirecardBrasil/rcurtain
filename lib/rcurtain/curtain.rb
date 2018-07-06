@@ -10,7 +10,7 @@ module RCurtain
     end
 
     def open?(feature_name, users = [])
-      percentage_allowed?(feature_name, users) ||
+      percentage_allowed?(feature_name) ||
         users_allowed?(feature_name, users)
     end
 

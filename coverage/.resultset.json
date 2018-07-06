@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/lucas/Documents/projects/rcurtain/lib/rcurtain.rb": [
+      "/home/lucasqueiroz/Documents/projects/rcurtain/lib/rcurtain.rb": [
         1,
         1,
         1,
@@ -12,11 +12,11 @@
         1,
         null,
         1,
-        7,
+        11,
         null,
         null,
         1,
-        76,
+        88,
         null,
         null,
         1,
@@ -25,12 +25,12 @@
         null,
         null,
         1,
-        30,
+        37,
         null,
         null,
         null
       ],
-      "/home/lucas/Documents/projects/rcurtain/lib/rcurtain/feature.rb": [
+      "/home/lucasqueiroz/Documents/projects/rcurtain/lib/rcurtain/feature.rb": [
         1,
         null,
         1,
@@ -61,8 +61,8 @@
         null,
         null,
         1,
-        5,
-        5,
+        8,
+        8,
         null,
         1,
         null,
@@ -89,8 +89,8 @@
         null,
         null,
         1,
-        6,
-        6,
+        10,
+        10,
         null,
         2,
         null,
@@ -105,13 +105,13 @@
         1,
         null,
         1,
-        43,
-        43,
+        50,
+        50,
         null,
         null,
         null
       ],
-      "/home/lucas/Documents/projects/rcurtain/lib/rcurtain/curtain.rb": [
+      "/home/lucasqueiroz/Documents/projects/rcurtain/lib/rcurtain/curtain.rb": [
         1,
         null,
         1,
@@ -137,15 +137,15 @@
         null,
         null,
         1,
-        2,
-        2,
-        2,
+        4,
+        4,
+        4,
         null,
         null,
         1,
-        3,
-        3,
-        3,
+        7,
+        7,
+        7,
         null,
         null,
         1,
@@ -154,7 +154,7 @@
         null,
         null
       ],
-      "/home/lucas/Documents/projects/rcurtain/lib/rcurtain/configuration.rb": [
+      "/home/lucasqueiroz/Documents/projects/rcurtain/lib/rcurtain/configuration.rb": [
         1,
         null,
         1,
@@ -171,6 +171,6 @@
         null
       ]
     },
-    "timestamp": 1530755128
+    "timestamp": 1530840701
   }
 }

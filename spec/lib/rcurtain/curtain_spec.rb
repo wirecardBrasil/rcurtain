@@ -90,10 +90,50 @@ describe RCurtain do
     end
 
     describe '#percentage_allowed?' do
+      context 'when percentage is 100' do
+        before do
+          feature.set_percentage(feature_name, 100)
+        end
 
+        it 'should allow the user' do
+          expect(subject.send('percentage_allowed?', feature_name))
+            .to eq(true)
+        end
+      end
+
+      context 'when percentage is 0' do
+        before do
+          feature.set_percentage(feature_name, 0)
+        end
+
+        it 'should deny the user' do
+          expect(subject.send('percentage_allowed?', feature_name))
+            .to eq(false)
+        end
+      end
     end
 
     describe '#allowed_percentage' do
+      context 'when percentage is set' do
+        before do
+          feature.set_percentage(feature_name, 50)
+        end
+
+        it 'has correct percentage for feature' do
+          expect(subject.send('allowed_percentage', feature_name))
+            .to eq(50)
+        end
+      end
+
+      context 'when percentage is null' do
+        let(:nil_feature) { 'nil_feature' }
+
+        it 'returns default value' do
+          expect(subject.send('allowed_percentage', nil_feature))
+            .to eq(RCurtain.configuration.default_percentage)
+        end
+      end
+
       context 'when redis connection fails' do
         before do
           fail_redis(:get)
