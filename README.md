@@ -1,6 +1,4 @@
-# RCurtain
-
-![SimpleCov](/coverage/coverage.svg)
+# RCurtain ![SimpleCov](/coverage/coverage.svg)
 
 Easy way to control your features using [redis](http://redis.io/).
 
