@@ -11,7 +11,7 @@ git checkout -b my-new-feature
 
 3. Add tests!
 
-4. Check if the code still works after your update:
+4. Check if the code still works after your update
 
 ```
 bundle exec rspec
