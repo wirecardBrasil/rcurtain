@@ -1,5 +1,7 @@
 # RCurtain
 
+![SimpleCov](/coverage/coverage.svg)
+
 Easy way to control your features using [redis](http://redis.io/).
 
 Also available for Java -> [JCurtain!](https://github.com/moip/jcurtain)
