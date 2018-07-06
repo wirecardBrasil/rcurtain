@@ -4,17 +4,13 @@ jobs:
     docker:
        - image: circleci/ruby:2.4.1
     environment:
-      CC_TEST_REPORTER_ID: 05eeb5598f2b7f5fe999d6a9ad9f7d20a060ad2244f57f250a153b61a0d7afcb
+      CODACY_PROJECT_TOKEN: ebcca75223d44c4cbeda90fa9b3e7b5a
     steps:
       - checkout
       - run:
           name: install dependencies
           command: |
             bundle install
-      # Code Climate setup
-      - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-      - run: chmod +x ./cc-test-reporter
-      - run: ./cc-test-reporter before-build
       - run:
           name: run tests
           command: |
@@ -23,4 +19,3 @@ jobs:
           name: run code analyzer
           command: |
             bundle exec rubocop
-      - run: ./cc-test-reporter after-build
