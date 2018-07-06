@@ -5,9 +5,6 @@
 *.gem
 *.rbc
 /.config
-/coverage/*/
-/coverage/*
-!/coverage/coverage.svg
 /InstalledFiles
 /pkg/
 /spec/reports/
