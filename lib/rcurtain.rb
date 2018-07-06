@@ -3,6 +3,7 @@ require 'rcurtain/feature'
 require 'rcurtain/curtain'
 require 'rcurtain/configuration'
 
+# Main module of the project
 module RCurtain
   class << self
     attr_writer :configuration, :feature
