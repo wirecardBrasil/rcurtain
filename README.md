@@ -1,4 +1,4 @@
-# RCurtain ![SimpleCov](/coverage/coverage.svg)
+# RCurtain ![SimpleCov](/coverage/coverage.svg) ![RubyGem](https://badge.fury.io/rb/rcurtain.svg)
 
 Easy way to control your features using [redis](http://redis.io/).
 
