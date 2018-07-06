@@ -23,4 +23,4 @@ jobs:
           name: run code analyzer
           command: |
             bundle exec rubocop
-      - run: ./cc-test-reporter after-build --exit-code $EXIT_CODE
+      - run: ./cc-test-reporter after-build
