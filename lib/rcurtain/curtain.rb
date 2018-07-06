@@ -5,10 +5,6 @@ module RCurtain
   class Curtain
     include Singleton
 
-    def initialize
-      @random = Random.new
-    end
-
     def open?(feature_name, users = [])
       percentage_allowed?(feature_name) ||
         users_allowed?(feature_name, users)
@@ -24,7 +20,7 @@ module RCurtain
 
     def percentage_allowed?(feature_name)
       allowed_percentage = allowed_percentage(feature_name).to_i
-      rand_percentage = @random.rand(0..100)
+      rand_percentage = rand(0..100)
       rand_percentage <= allowed_percentage
     end
 

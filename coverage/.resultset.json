@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/lucasqueiroz/Documents/projects/rcurtain/lib/rcurtain.rb": [
+      "/Users/lucas.queiroz/Documents/projects/rcurtain/lib/rcurtain.rb": [
         1,
         1,
         1,
@@ -31,7 +31,7 @@
         null,
         null
       ],
-      "/home/lucasqueiroz/Documents/projects/rcurtain/lib/rcurtain/feature.rb": [
+      "/Users/lucas.queiroz/Documents/projects/rcurtain/lib/rcurtain/feature.rb": [
         1,
         null,
         1,
@@ -112,7 +112,7 @@
         null,
         null
       ],
-      "/home/lucasqueiroz/Documents/projects/rcurtain/lib/rcurtain/curtain.rb": [
+      "/Users/lucas.queiroz/Documents/projects/rcurtain/lib/rcurtain/curtain.rb": [
         1,
         null,
         1,
@@ -121,20 +121,16 @@
         1,
         null,
         1,
-        1,
-        null,
-        null,
-        1,
-        null,
         2,
         null,
         null,
-        1,
         null,
         1,
         null,
-        7,
+        1,
         5,
+        7,
+        null,
         null,
         null,
         1,
@@ -155,7 +151,7 @@
         null,
         null
       ],
-      "/home/lucasqueiroz/Documents/projects/rcurtain/lib/rcurtain/configuration.rb": [
+      "/Users/lucas.queiroz/Documents/projects/rcurtain/lib/rcurtain/configuration.rb": [
         1,
         null,
         1,
@@ -172,6 +168,6 @@
         null
       ]
     },
-    "timestamp": 1530843483
+    "timestamp": 1530879550
   }
 }
