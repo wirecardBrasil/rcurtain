@@ -1,4 +1,4 @@
-# RCurtain ![SimpleCov](/coverage/coverage.svg) [![Gem Version](https://badge.fury.io/rb/rcurtain.svg)](https://badge.fury.io/rb/rcurtain))
+# RCurtain ![SimpleCov](/coverage/coverage.svg) [![Gem Version](https://badge.fury.io/rb/rcurtain.svg)](https://badge.fury.io/rb/rcurtain)
 
 Easy way to control your features using [redis](http://redis.io/).
 
@@ -46,7 +46,16 @@ RCurtain.configure do |config|
 end
 ```
 
-3. Configure the **feature name format** (Optional)
+3. Configure the **default percentage** of the service (Optional)
+
+```ruby
+RCurtain.configure do |config|
+  # Default percentage to be returned when percentage is not set. Default: 0
+  config.default_percentage = 50
+end
+```
+
+4. Configure the **feature name format** (Optional)
 
 ```ruby
 RCurtain.configure do |config|
@@ -55,28 +64,12 @@ RCurtain.configure do |config|
 end
 ```
 
-4. Configure the **default description** (Optional)
+5. Configure the **default description** (Optional)
 
 ```ruby
 RCurtain.configure do |config|
-  # Default description of the feature
+  # Default description of the feature. Default: ''
   config.default_description = 'Description'
-end
-```
-
-5. Configure the **default percentage** (Optional)
-```ruby
-RCurtain.configure do |config|
-  # Default percentage to be returned when percentage is not set
-  config.default_percentage = 'Description'
-end
-```
-
-6. Configure if RCurtain should **save users** when using percentage
-```ruby
-RCurtain.configure do |config|
-  # Should users be persisted when allowed by percentage?
-  config.save_users = false
 end
 ```
 
@@ -89,7 +82,13 @@ feature:<name>:percentage
 feature:<name>:users
 ```
 
-The `percentage` and `users` parameters will be added to the feature name format you configured before.
+And a **description**, which is a string:
+```ruby
+# Description
+feature:<name>:description
+```
+
+The `percentage`, `users` and `description` parameters will be added to the feature name format you configured before.
 
 ### Checking the features
 
@@ -110,29 +109,39 @@ rcurtain.opened?('feature-name', ['user-1', 'user-2'])
 
 4. You can also retrieve a list of users that have that feature enabled
 ```ruby
-RCurtain.feature.array('feature-name')
+RCurtain.feature.list_users('feature-name')
 ```
 
 5. Or check the percentage for that feature
 ```ruby
-RCurtain.feature.number('feature-name')
+RCurtain.feature.percentage('feature-name')
+```
+
+6. Or get the description of a feature
+```ruby
+RCurtain.feature.description('feature-name')
 ```
 
 ### Controlling the features
 
 1. Enable a feature for specific users
 ```ruby
-RCurtain.feature.add('feature-name', ['user-1', 'user-2'])
+RCurtain.feature.add_users('feature-name', ['user-1', 'user-2'])
 ```
 
 2. Disable a feature for specific users
 ```ruby
-RCurtain.feature.remove('feature-name', ['user-2'])
+RCurtain.feature.remove_users('feature-name', ['user-2'])
 ```
 
 3. Update the percentage for a feature
 ```ruby
-RCurtain.feature.update('percentage', 50)
+RCurtain.feature.set_percentage('feature_name', 50)
+```
+
+4. Update the description for a feature
+```ruby
+RCurtain.feature.describe('feature_name', 'Description')
 ```
 
 ## Contributing
