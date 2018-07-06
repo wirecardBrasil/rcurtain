@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 
 gemspec
-gem 'simplecov-shield', require: false
 gem 'rubocop', require: false
+gem 'simplecov-shield', require: false

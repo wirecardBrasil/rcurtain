@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  build:
+    docker:
+       - image: circleci/ruby:2.4.1
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            bundle install
+      - run:
+          name: run tests
+          command: |
+            bundle exec rspec
+      - run:
+          name: run code analyzer
+          command: |
+            bundle exec rubocop

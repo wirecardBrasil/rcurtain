@@ -22,7 +22,7 @@ module RCurtain
       end
     end
 
-    def percentage_allowed?(feature_name, users = [])
+    def percentage_allowed?(feature_name)
       allowed_percentage = allowed_percentage(feature_name).to_i
       rand_percentage = @random.rand(0..100)
       rand_percentage <= allowed_percentage
