@@ -104,6 +104,17 @@ describe RCurtain do
             expect(subject.description(feature_name)).to eq(description)
           end
         end
+
+        context 'when redis connection fails' do
+          before do
+            fail_redis(:get)
+          end
+
+          it 'returns default value' do
+            expect(subject.description(feature_name))
+              .to eq(RCurtain.configuration.default_description)
+          end
+        end
       end
     end
   end
