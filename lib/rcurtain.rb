@@ -1,25 +1,28 @@
-require "redis"
+require 'redis'
+require 'rcurtain/feature'
+require 'rcurtain/curtain'
+require 'rcurtain/configuration'
 
-require "rcurtain/feature"
-require "rcurtain/curtain"
-require "rcurtain/configuration"
-
-module Rcurtain
-
+# Main module of the project
+module RCurtain
   class << self
-    attr_writer :configuration
+    attr_writer :configuration, :feature
 
     def instance
       Curtain.instance
     end
-  end
 
-  def self.configuration
-    @configuration ||= Configuration.new
-  end
+    def configuration
+      @configuration ||= Configuration.new
+    end
 
-  def self.configure
-    @configuration = Configuration.new
-    yield(configuration)
+    def configure
+      @configuration = Configuration.new
+      yield(configuration)
+    end
+
+    def feature
+      @feature ||= Feature.instance
+    end
   end
 end

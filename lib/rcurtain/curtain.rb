@@ -1,52 +1,39 @@
-require "singleton"
+require 'singleton'
 
-module Rcurtain
+module RCurtain
+  # Checks features for users or percentages
   class Curtain
     include Singleton
 
-    attr_reader :redis
-
-    def initialize
-      @redis = Redis.new(:url => Rcurtain.configuration.url)
-    end
-
-    def opened?(feature, users = [])
-      compare_percentage?(percentage(feature)) || users_enabled?(feature, users)
+    def open?(feature_name, users = [])
+      percentage_allowed?(feature_name) ||
+        users_allowed?(feature_name, users)
     rescue Redis::CannotConnectError
-      return Rcurtain.configuration.default_response
-    end
-
-    def get_users(feature)
-      get_feature(feature).users
-    rescue Redis::CannotConnectError
-        Rcurtain.configuration.default_response
+      RCurtain.configuration.default_response
     end
 
     private
-      def get_feature (name)
-        percentage = redis.get("feature:#{name}:percentage") || 0
 
-        users = redis.smembers("feature:#{name}:users") || []
-
-        return Feature.new(name, percentage, users)
+    def users_allowed?(feature_name, users)
+      valid_users?(users) && users.all? do |user|
+        RCurtain.feature.user_enabled?(feature_name, user)
       end
+    end
 
-      def users_enabled?(feature_name, users = [])
-        return false if invalid_users?(users)
-        users.all? { |user| redis.sismember("feature:#{feature_name}:users", user) }
-      end
+    def percentage_allowed?(feature_name)
+      allowed_percentage = allowed_percentage(feature_name).to_i
+      rand_percentage = rand(0..100)
+      rand_percentage <= allowed_percentage
+    end
 
-      def invalid_users?(users)
-        users.nil? || users.empty?
-      end
+    def allowed_percentage(feature_name)
+      allowed_percentage = RCurtain.feature.percentage(feature_name)
+      default_percentage = RCurtain.configuration.default_percentage
+      allowed_percentage.nil? ? default_percentage : allowed_percentage
+    end
 
-      def percentage(feature_name)
-        redis.get("feature:#{feature_name}:percentage") || 0
-      end
-
-      def compare_percentage? (percentage)
-        rnd = Random.new
-        rnd.rand(1..100) <= percentage.to_f
-      end
+    def valid_users?(users)
+      !users.nil? && !users.empty?
+    end
   end
 end
