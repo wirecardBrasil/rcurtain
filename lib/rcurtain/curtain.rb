@@ -8,6 +8,8 @@ module RCurtain
     def open?(feature_name, users = [])
       percentage_allowed?(feature_name) ||
         users_allowed?(feature_name, users)
+    rescue Redis::CannotConnectError
+      RCurtain.configuration.default_response
     end
 
     private

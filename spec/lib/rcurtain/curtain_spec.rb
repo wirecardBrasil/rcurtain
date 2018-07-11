@@ -34,6 +34,30 @@ describe RCurtain do
           feature.set_percentage(feature_name, 0)
         end
       end
+
+      context 'when redis connection fails' do
+        context 'when checking users' do
+          before do
+            fail_redis(:sismember)
+          end
+
+          it 'returns default value' do
+            expect(subject.open?(feature_name, users))
+              .to eq(RCurtain.configuration.default_response)
+          end
+        end
+
+        context 'when checking percentage' do
+          before do
+            fail_redis(:get)
+          end
+
+          it 'returns default value' do
+            expect(subject.open?(feature_name, users))
+              .to eq(RCurtain.configuration.default_response)
+          end
+        end
+      end
     end
 
     describe '#users_allowed?' do
@@ -74,17 +98,6 @@ describe RCurtain do
         it 'should be disabled for users' do
           expect(subject.send('users_allowed?', feature_name, users))
             .to be false
-        end
-      end
-
-      context 'when redis connection fails' do
-        before do
-          fail_redis(:sismemer)
-        end
-
-        it 'returns default value' do
-          expect(subject.send('users_allowed?', feature_name, users))
-            .to eq(RCurtain.configuration.default_response)
         end
       end
     end
@@ -130,17 +143,6 @@ describe RCurtain do
 
         it 'returns default value' do
           expect(subject.send('allowed_percentage', nil_feature))
-            .to eq(RCurtain.configuration.default_percentage)
-        end
-      end
-
-      context 'when redis connection fails' do
-        before do
-          fail_redis(:get)
-        end
-
-        it 'returns default value' do
-          expect(subject.send('allowed_percentage', feature_name))
             .to eq(RCurtain.configuration.default_percentage)
         end
       end

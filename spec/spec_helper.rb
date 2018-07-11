@@ -4,10 +4,10 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'simplecov'
 require 'codacy-coverage'
 
+SimpleCov.formatter = [SimpleCov::Formatter::HTMLFormatter, Codacy::Formatter]
+SimpleCov.minimum_coverage 95
 SimpleCov.start do
   add_filter '/spec/'
-  SimpleCov.formatter = Codacy::Formatter
-  SimpleCov.minimum_coverage 95
 end
 
 require 'bundler/setup'
