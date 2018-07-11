@@ -10,6 +10,10 @@ Describe your updates here.
 
 Example:
 
-- Adds feature
+- Add feature <feature name>
+- Fix bug <bug>
 - Closes issue #0
+
+Start the line with "Fix", "Add", "Change" instead of "Fixed", "Added", "Changed".
+
 -->
