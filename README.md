@@ -1,4 +1,4 @@
-# RCurtain [![Gem Version](https://badge.fury.io/rb/rcurtain.svg)](https://badge.fury.io/rb/rcurtain)
+# RCurtain [![Gem Version](https://badge.fury.io/rb/rcurtain.svg)](https://badge.fury.io/rb/rcurtain) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e38e39dd06b240529fd044e60a65a42a)](https://www.codacy.com/app/lucas.queiroz/rcurtain_2)
 
 Easy way to control your features using [redis](http://redis.io/).
 
