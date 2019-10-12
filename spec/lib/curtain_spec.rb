@@ -82,8 +82,9 @@ describe Rcurtain do
   context 'get users sample from feature' do
     before do
       allow_any_instance_of(Redis).to receive(:get).with("feature:feature:percentage").and_return(0)
-      allow_any_instance_of(Redis).to receive(:get).with("feature:feature:users:percentage").and_return(50)
-      allow_any_instance_of(Redis).to receive(:smembers).with("feature:feature:users:sample").and_return(nil)
+      allow_any_instance_of(Redis).to receive(:get).with("feature:feature:users:session:percentage").and_return(50)
+      allow_any_instance_of(Redis).to receive(:get).with("feature:feature:users:session:ttl_in_days").and_return(1)
+      allow_any_instance_of(Redis).to receive(:smembers).with("feature:feature:users:session:sample").and_return(nil)
       allow_any_instance_of(Redis).to receive(:smembers).with("feature:feature:users").and_return(%w[123 321])
       allow_any_instance_of(Redis).to receive(:setex).and_return(nil)
     end

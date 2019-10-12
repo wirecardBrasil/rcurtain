@@ -31,11 +31,12 @@ module Rcurtain
 
       users = get_feature(feature).users
       percentage = get_feature_sample_percentage(feature)
+      ttl = get_feature_sample_ttl(feature)&.to_i
 
-      sample_number = users.size * (0.01 * percentage)
+      sample_number = users.size * (percentage.to_f / 100)
       users_sample = users.sample(sample_number.to_i)
 
-      persist_users_sample(feature, users_sample)
+      persist_users_sample(feature, users_sample, ttl)
 
       users_sample
     rescue Redis::CannotConnectError
@@ -55,17 +56,23 @@ module Rcurtain
     def get_feature_sample(name)
       percentage = get_feature_sample_percentage(name)
 
-      users = redis.smembers("feature:#{name}:users:sample") || []
+      users = redis.smembers("feature:#{name}:users:session:sample") || []
 
       Feature.new(name, percentage, users)
     end
 
-    def persist_users_sample(name, users)
-      redis.setex("feature:#{name}:users:sample", sample_ttl, users)
+    def persist_users_sample(name, users, ttl = nil)
+      options = { ex: ttl }.compact
+
+      redis.set("feature:#{name}:users:session:sample", users, options)
     end
 
     def get_feature_sample_percentage(name)
-      redis.get("feature:#{name}:users:percentage") || 0
+      redis.get("feature:#{name}:users:session:percentage") || 0
+    end
+
+    def get_feature_sample_ttl(name)
+      redis.get("feature:#{name}:users:session:ttl_in_days")
     end
 
     def users_enabled?(feature_name, users = [])
