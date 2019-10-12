@@ -78,4 +78,16 @@ describe Rcurtain do
 
     it { expect(rcurtain.get_users('feature')).to eq %w[123 321] }
   end
+
+  context 'get users sample from feature' do
+    before do
+      allow_any_instance_of(Redis).to receive(:get).with("feature:feature:percentage").and_return(0)
+      allow_any_instance_of(Redis).to receive(:get).with("feature:feature:users:percentage").and_return(50)
+      allow_any_instance_of(Redis).to receive(:smembers).with("feature:feature:users:sample").and_return(nil)
+      allow_any_instance_of(Redis).to receive(:smembers).with("feature:feature:users").and_return(%w[123 321])
+      allow_any_instance_of(Redis).to receive(:setex).and_return(nil)
+    end
+
+    it { expect(rcurtain.get_users_sample('feature').size).to eq 1 }
+  end
 end

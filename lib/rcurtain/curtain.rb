@@ -23,6 +23,23 @@ module Rcurtain
     rescue Redis::CannotConnectError
       Rcurtain.configuration.default_response
     end
+
+    def get_users_sample(feature)
+      users = get_feature_sample(feature).users
+
+      return users unless users.empty?
+
+      users = get_feature(feature).users
+      percentage = get_feature_sample_percentage(feature)
+
+      sample_number = users.size * (0.01 * percentage)
+      users_sample = users.sample(sample_number.to_i)
+
+      persist_users_sample(feature, users_sample)
+
+      users_sample
+    rescue Redis::CannotConnectError
+      Rcurtain.configuration.default_response
     end
 
     private
@@ -35,8 +52,26 @@ module Rcurtain
       Feature.new(name, percentage, users)
     end
 
+    def get_feature_sample(name)
+      percentage = get_feature_sample_percentage(name)
+
+      users = redis.smembers("feature:#{name}:users:sample") || []
 
       Feature.new(name, percentage, users)
+    end
+
+    def persist_users_sample(name, users)
+      redis.setex("feature:#{name}:users:sample", sample_ttl, users)
+    end
+
+    def get_feature_sample_percentage(name)
+      redis.get("feature:#{name}:users:percentage") || 0
+    end
+
+    def users_enabled?(feature_name, users = [])
+      return false if invalid_users?(users)
+
+      users.all? { |user| redis.sismember("feature:#{feature_name}:users", user) }
     end
 
     def invalid_users?(users)
