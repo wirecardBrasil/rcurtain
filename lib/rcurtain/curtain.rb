@@ -31,12 +31,12 @@ module Rcurtain
 
       users = get_feature(feature).users
       percentage = get_feature_sample_percentage(feature)
-      ttl = get_feature_sample_ttl(feature)&.to_i
+      ttl_in_days = get_feature_sample_ttl(feature)&.to_i
 
       sample_number = users.size * (percentage.to_f / 100)
       users_sample = users.sample(sample_number.to_i)
 
-      persist_users_sample(feature, users_sample, ttl)
+      persist_users_sample(feature, users_sample, ttl_in_days)
 
       users_sample
     rescue Redis::CannotConnectError
