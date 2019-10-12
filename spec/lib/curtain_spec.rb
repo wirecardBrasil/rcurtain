@@ -75,7 +75,7 @@ describe Rcurtain do
       allow_any_instance_of(Redis).to receive(:get).and_return(0)
       allow_any_instance_of(Redis).to receive(:smembers).and_return(['123', '321'])
     end
-    it { expect(rcurtain.get_users("feature")).to eq ['123', '321']}
-  end
 
+    it { expect(rcurtain.get_users("feature")).to eq ['123', '321'] }
+  end
 end

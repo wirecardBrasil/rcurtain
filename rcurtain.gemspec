@@ -6,9 +6,8 @@ Gem::Specification.new do |s|
   s.description = "Open the curtain and see if your feature is enabled"
   s.authors     = ["Danillo Souza", "Gabriel Queiroz", "Guilherme Sipoloni"]
   s.email       = ["danillo.souza@moip.com.br", "gabriel.queiroz@moip.com.br", "guilehrme.sipoloni@moip.com.br"]
-  s.homepage    =
-    'http://github.com/moip/rcurtain'
-  s.license       = 'MIT'
+  s.homepage    = 'http://github.com/moip/rcurtain'
+  s.license     = 'MIT'
 
   s.files       = Dir['**/*'].keep_if { |file| File.file?(file) }
   s.require_paths = ['lib']
