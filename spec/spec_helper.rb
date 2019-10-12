@@ -5,7 +5,7 @@ require 'bundler/setup'
 Bundler.setup
 
 require 'rspec'
-
+require 'pry-byebug'
 require "rcurtain"
 
 RSpec.configure do |config|
